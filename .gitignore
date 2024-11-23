@@ -1,3 +1,5 @@
 .cache/
 chip8
 compile_commands.json
+
+chip8-roms

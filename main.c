@@ -21,6 +21,16 @@ typedef enum { QUIT, RUNNING, PAUSED } emulator_state_t;
 
 typedef struct {
   emulator_state_t state;
+  uint8_t ram[4096];
+  bool display[64 * 32]; // emulate original CHIP8 resolution pixels
+  uint16_t stack[12];
+  uint8_t V[16];       // Data registers V0-VF
+  uint8_t I;           // Index Register
+  uint16_t PC;         // Program Counter
+  uint8_t delay_timer; // Decrements at 60Hz when > 0
+  uint8_t sound_timer; // Decrements at 60Hz and plays tone when > 0
+  bool keypad[16];     // Hexadecimal Keypad 0x0 - 0xF
+  char *rom_name;      // currently running ROM
 } chip8_t;
 
 bool init_sdl(sdl_t *sdl, const config_t config) {
@@ -40,7 +50,18 @@ bool init_sdl(sdl_t *sdl, const config_t config) {
 }
 
 bool init_chip8(chip8_t *chip8) {
+  const uint32_t entry_point = 0x200;
+  const uint8_t font = {
+      0
+  };
+  // Load Font
+
+  // Load ROM
+
+  // Set chip8 Machine defaults
   chip8->state = RUNNING;
+  chip8->PC = entry_point;
+
   return true;
 }
 
